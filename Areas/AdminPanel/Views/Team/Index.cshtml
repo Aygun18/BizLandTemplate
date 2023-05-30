@@ -1,0 +1,60 @@
+﻿@model List<Team>
+@{
+    int count = 0;
+}
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <a class="btn-success" asp-controller="team" asp-action="create">Create Team</a>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                No
+                            </th>
+                            <th>
+                                Image
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                PositionId
+                            </th>
+                            <th>
+                                Settings
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Team team in Model)
+                        {
+                            count++;
+                            <tr>
+                                <td>
+                                    @count
+                                </td>
+                                <td class="py-1">
+                                    <img src="~/assets/img/team/@team.Image" alt="image" />
+                                </td>
+                                <td>
+                                   @team.Name
+                                </td>
+                                <td>
+                                    @team.Position.Name
+                                </td>
+                                <td>
+                                    <a class="btn btn-warning" asp-controller="team" asp-action="update" asp-route-id="@team.Id">Update</a>
+                                    <a class="btn btn-danger" asp-controller="team" asp-action="delete" asp-route-id="@team.Id">Delete</a>
+                                </td>
+                            </tr>
+
+                        }
+                      
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
