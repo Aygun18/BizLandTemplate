@@ -1,6 +1,6 @@
 ﻿@model List<Team>
 @{
-    int count = 0;
+    int count = (ViewBag.CurrentPage-1)*2;
 }
 <div class="col-lg-12 grid-margin stretch-card">
     <div class="card">
@@ -49,11 +49,19 @@
                                     <a class="btn btn-danger" asp-controller="team" asp-action="delete" asp-route-id="@team.Id">Delete</a>
                                 </td>
                             </tr>
-
                         }
-                      
                     </tbody>
                 </table>
+                <nav aria-label="...">
+                    <ul class="pagination pagination-lg">
+                        @for (int i = 1; i <= ViewBag.TotalPage; i++)
+                        {
+                            <li class="page-item @(i==ViewBag.CurrentPage ? "disabled": " ")">
+                                <a class="page-link" asp-route-page="@i" tabindex="-1">@i</a>
+                            </li>
+                        }   
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>

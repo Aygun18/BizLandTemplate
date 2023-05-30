@@ -19,9 +19,11 @@ namespace BizLandTemplate.Areas.AdminPanel.Controllers
             _context = context;
             _env = env;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int take=2,int page=1)
         {
-            List<Team> teams = await _context.Teams.Include(t=>t.Position).ToListAsync();
+            List<Team> teams = await _context.Teams.Skip((page-1)*take).Take(take).Include(t=>t.Position).ToListAsync();
+            ViewBag.TotalPage = (int)Math.Ceiling((double)_context.Teams.Count() / take);
+            ViewBag.CurrentPage=page;
             return View(teams);
         }
         public IActionResult Create()
@@ -118,6 +120,7 @@ namespace BizLandTemplate.Areas.AdminPanel.Controllers
                 team.Image = await updateTeamVM.Photo.CreateFileAsync(_env.WebRootPath, "assets/img/team");
             }
             team.PositionId = updateTeamVM.PositionId;
+            team.Name = updateTeamVM.Name;
             team.TwitterLink = updateTeamVM.TwitterLink;
             team.FacebookLink = updateTeamVM.FacebookLink;
             team.LinkedinLink = updateTeamVM.LinkedinLink;
